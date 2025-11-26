@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout - iGenkids</title>
+
+  <!-- Firebase (compat) CDN -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">iGenkids</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="checkout.html">Checkout</a>
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+  </header>
+
+  <main class="checkout-main">
+    <h1>Checkout</h1>
+    <div class="checkout-grid">
+      <div class="checkout-form">
+        <h3>Customer Details</h3>
+
+        <label for="cust-name">Full name</label>
+        <input id="cust-name" placeholder="Full name">
+
+        <label for="cust-email">Email</label>
+        <input id="cust-email" placeholder="example@mail.com">
+
+        <label for "cust-phone">Phone</label>
+        <input id="cust-phone" placeholder="+91 98765 43210">
+
+        <label for="cust-address">Address</label>
+        <textarea id="cust-address" placeholder="Delivery / Billing address"></textarea>
+
+        <button onclick="startPayment()">Pay Now (Simulated)</button>
+      </div>
+
+      <aside class="checkout-summary">
+        <h3>Order Summary</h3>
+        <div id="summary-items"></div>
+        <p class="summary-total">Total: Rs. <span id="summary-total-amt">0</span></p>
+      </aside>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <!-- FOOTER -->
+<footer class="checkout-footer">
+  <div class="footer-container">
+
+    <div class="footer-column">
+      <h3>iGenkids</h3>
+      <p>Digital workbooks & learning activity packs for children aged 4–12.</p>
+    </div>
+
+    <div class="footer-column">
+      <h3>Quick Links</h3>
+      <a href="index.html">Home</a>
+      <a href="index.html#products">Products</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="dashboard.html">Admin</a>
+    </div>
+
+    <div class="footer-column">
+      <h3>Help</h3>
+      <p>Email: support@igenkids.com</p>
+      <p>Phone: +91 98765 43210</p>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2025 iGenkids – All Rights Reserved
+  </div>
+</footer>
+
+</body>
+</html>

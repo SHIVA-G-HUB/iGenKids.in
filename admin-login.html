@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Login - iGenkids</title>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+  <style>
+    body {
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      background:#2563eb;
+      font-family:Arial;
+      color:white;
+    }
+    .box {
+      background:white;
+      padding:35px;
+      border-radius:15px;
+      width:320px;
+      text-align:center;
+      color:black;
+    }
+    button {
+      width:100%;
+      padding:12px;
+      border-radius:8px;
+      border:none;
+      background:#2563eb;
+      color:white;
+      cursor:pointer;
+      margin-top:15px;
+      font-weight:bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Admin Login</h2>
+  <p>Only Admin Gmail allowed</p>
+  <button onclick="loginWithGoogle()">Login with Google</button>
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyABq6b5vH4D5JAjAuHV5uGhA7g4CMMh4eo",
+  authDomain: "igenkids-c4e93.firebaseapp.com",
+  projectId: "igenkids-c4e93"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+/* PUT YOUR OWN GMAIL HERE */
+const ADMIN_EMAIL = "gentizesiva2004@gmail.com";
+
+firebase.auth().onAuthStateChanged(user => {
+  if(user && user.email === ADMIN_EMAIL){
+    location.href = "dashboard.html";
+  }
+});
+
+function loginWithGoogle(){
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  firebase.auth().signInWithPopup(provider)
+  .then(result => {
+    if(result.user.email === ADMIN_EMAIL){
+      location.href = "dashboard.html";
+    } else {
+      alert("Not admin email!");
+      firebase.auth().signOut();
+    }
+  })
+  .catch(err => alert(err.message));
+}
+</script>
+
+</body>
+</html>
+

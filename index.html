@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iGenkids - Digital Books & Activities for Kids</title>
+
+  <!-- Firebase (compat) CDN -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Top Offer / Timer Bar -->
+  <div class="top-bar">
+    <span class="top-bar-text">🎉 Special Launch Offer on iGenkids Activity Books</span>
+    <span class="top-bar-timer">
+      Offer ends in <span id="countdown">00:00:00</span>
+    </span>
+  </div>
+
+  <header>
+    <div class="logo">
+      <span class="logo-icon">📘</span>
+      <span class="logo-text">iGenkids</span>
+    </div>
+    <nav>
+      <a href="#hero">Home</a>
+      <a href="#features">Benefits</a>
+      <a href="#whats-inside">Inside</a>
+      <a href="#products">Products</a>
+      <a href="#ages">Age Groups</a>
+      <a href="#faq">FAQ</a>
+      <a href="checkout.html">Checkout</a>
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+      <div class="hero-content">
+        <h1>Make Learning Fun with Digital Activity Books</h1>
+        <p>Instant-download workbooks, worksheets & activity packs for kids aged 4–12. Colorful, interactive and parent-approved.</p>
+        <div class="hero-actions">
+          <button onclick="location.href='#products'">Browse Books</button>
+          <button class="secondary" onclick="location.href='checkout.html'">Go to Checkout</button>
+        </div>
+        <p class="hero-note">⚡ Instant access after payment • 📩 Files delivered by email (manual / future integration)</p>
+      </div>
+      <div class="hero-image">
+        <img src="https://cdn-icons-png.flaticon.com/512/9804/9804904.png" alt="Kids learning digitally" />
+      </div>
+    </section>
+
+    <!-- TRUST & STATS STRIP -->
+    <section class="trust-strip">
+      <div>⭐ 100+ activity pages</div>
+      <div>👨‍👩‍👧 Designed for busy parents</div>
+      <div>💻 Printable & tablet-ready</div>
+      <div>🧠 Focus on skills + creativity</div>
+    </section>
+
+    <!-- FEATURES / BENEFITS -->
+    <section id="features">
+      <h2>Why Parents Love iGenkids</h2>
+      <p class="section-subtitle">Designed to keep kids engaged while actually learning.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <img src="https://cdn-icons-png.flaticon.com/512/2942/2942789.png" alt="">
+          <h3>Fun-Based Learning</h3>
+          <p>Activities, puzzles and coloring pages that make learning feel like playtime.</p>
+        </div>
+        <div class="feature-card">
+          <img src="https://cdn-icons-png.flaticon.com/512/3209/3209265.png" alt="">
+          <h3>Instant Access</h3>
+          <p>Get your digital files within minutes. Just download, print or use on tablet.</p>
+        </div>
+        <div class="feature-card">
+          <img src="https://cdn-icons-png.flaticon.com/512/6016/6016315.png" alt="">
+          <h3>Kid-Friendly Design</h3>
+          <p>Large fonts, bright colors and clean layout for better focus and happiness.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT'S INSIDE SECTION -->
+    <section id="whats-inside" class="inside-section">
+      <h2>What’s Inside Our Activity Packs?</h2>
+      <div class="inside-grid">
+        <div class="inside-item">
+          <h3>Writing Practice</h3>
+          <p>Story prompts, handwriting sheets, and creative writing exercises.</p>
+        </div>
+        <div class="inside-item">
+          <h3>Math Challenges</h3>
+          <p>Fun sums, number puzzles, and logical thinking games.</p>
+        </div>
+        <div class="inside-item">
+          <h3>English Skills</h3>
+          <p>Spelling, vocabulary builders, grammar challenges and more.</p>
+        </div>
+        <div class="inside-item">
+          <h3>Coloring & Activities</h3>
+          <p>Themed coloring pages, mazes and cut-and-paste tasks.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works" class="how-section">
+      <h2>How iGenkids Works</h2>
+      <div class="how-steps">
+        <div class="how-step">
+          <span class="step-number">1</span>
+          <h3>Select Your Books</h3>
+          <p>Pick from our popular activity packs and workbooks below.</p>
+        </div>
+        <div class="how-step">
+          <span class="step-number">2</span>
+          <h3>Add to Cart & Checkout</h3>
+          <p>Use our simple checkout to complete the simulated payment.</p>
+        </div>
+        <div class="how-step">
+          <span class="step-number">3</span>
+          <h3>Download & Start Learning</h3>
+          <p>Get instant digital access and start using on any device or print.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section id="products">
+      <h2>Popular Digital Books</h2>
+      <p class="section-subtitle">Tap “Add to Cart” and complete checkout to place your order.</p>
+      <div class="product-grid">
+        <div class="product-card" data-id="book1" data-title="Creative Writing Kit" data-price="199">
+          <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="">
+          <h3>Creative Writing Kit</h3>
+          <p class="product-desc">Prompts, story pages and exercises to unlock your kid’s imagination.</p>
+          <p class="product-price">Rs. 199</p>
+          <button onclick="addToCart('book1')">Add to Cart</button>
+        </div>
+
+        <div class="product-card" data-id="book2" data-title="Math Starter Pack" data-price="149">
+          <img src="https://cdn-icons-png.flaticon.com/512/3004/3004748.png" alt="">
+          <h3>Math Starter Pack</h3>
+          <p class="product-desc">Fun worksheets for counting, addition and subtraction.</p>
+          <p class="product-price">Rs. 149</p>
+          <button onclick="addToCart('book2')">Add to Cart</button>
+        </div>
+
+        <div class="product-card" data-id="book3" data-title="English Workbook" data-price="129">
+          <img src="https://cdn-icons-png.flaticon.com/512/3352/3352455.png" alt="">
+          <h3>English Workbook</h3>
+          <p class="product-desc">Activities to improve reading, grammar and vocabulary.</p>
+          <p class="product-price">Rs. 129</p>
+          <button onclick="addToCart('book3')">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="products-cta">
+        <button onclick="location.href='checkout.html'">Proceed to Checkout</button>
+        <button class="secondary" onclick="location.href='#faq'">View FAQs</button>
+      </div>
+    </section>
+
+    <!-- CART PREVIEW -->
+    <section id="cart-preview" class="cart-preview">
+      <h2>Your Cart</h2>
+      <div id="cart-items" class="cart-items"></div>
+      <div id="cart-actions" class="cart-actions">
+        <p id="cart-total">Total: Rs. 0</p>
+        <button onclick="location.href='checkout.html'">Proceed to Checkout</button>
+        <button onclick="clearCart()" class="secondary">Clear Cart</button>
+      </div>
+    </section>
+
+    <!-- AGE GROUPS SECTION -->
+    <section id="ages" class="ages-section">
+      <h2>Perfect for Every Age Group</h2>
+      <div class="ages-grid">
+        <div class="age-card">
+          <h3>3 – 5 years</h3>
+          <p>Pre-writing, coloring, shapes and early counting activities.</p>
+        </div>
+        <div class="age-card">
+          <h3>6 – 9 years</h3>
+          <p>Math practice, reading sheets, puzzles and creative writing prompts.</p>
+        </div>
+        <div class="age-card">
+          <h3>10 – 12 years</h3>
+          <p>Challenging English, logic games and foundation skill boosters.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEACHERS SECTION -->
+    <section id="teachers" class="teachers-section">
+      <h2>Recommended by Teachers</h2>
+      <div class="teachers-grid">
+        <div class="teacher-card">
+          <p>“These worksheets make my students excited about practice time. I love the mix of fun and learning.”</p>
+          <span>- Priya, Primary School Teacher</span>
+        </div>
+        <div class="teacher-card">
+          <p>“They are perfect as homework or extra practice sheets for slow and fast learners both.”</p>
+          <span>- Manoj, Math Teacher</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials" class="testimonials-section">
+      <h2>What Parents Are Saying</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <p>“My daughter actually asks for worksheet time now! The pages are colorful and fun.”</p>
+          <span>- Aarti, Mom of 7-year-old</span>
+        </div>
+        <div class="testimonial-card">
+          <p>“Great for weekends and holidays. The digital format makes it super easy to reuse.”</p>
+          <span>- Rahul, Dad of 9-year-old</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER SECTION -->
+    <section id="newsletter" class="newsletter-section">
+      <h2>Get Free Sample Worksheets</h2>
+      <p>Enter your email to receive sample pages and updates about new activity packs.</p>
+      <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thanks! (Connect to backend later)');">
+        <input type="email" placeholder="Parent email address" required />
+        <button type="submit">Get Free Sample</button>
+      </form>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section id="faq" class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <details>
+        <summary>How will I receive the digital books?</summary>
+        <p>You’ll receive instant access on the website after simulated payment. You can download and save the files.</p>
+      </details>
+      <details>
+        <summary>Can I print the activity pages?</summary>
+        <p>Yes, you can print them as many times as you want for personal use.</p>
+      </details>
+      <details>
+        <summary>What ages are these books suitable for?</summary>
+        <p>Most packs are designed for ages 4–12. You can choose based on your child’s level.</p>
+      </details>
+      <details>
+        <summary>Is this a one-time purchase?</summary>
+        <p>Yes, you pay once and can reuse your downloaded files forever for your own family.</p>
+      </details>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta">
+      <h2>Ready to Start Fun Learning?</h2>
+      <p>Add your favorite books to cart and complete your order in just a few clicks.</p>
+      <div class="final-cta-actions">
+        <button onclick="location.href='#products'">Browse Activity Books</button>
+        <button class="secondary" onclick="location.href='checkout.html'">Go to Checkout</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 iGenkids • Digital Books & Learning Activities</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

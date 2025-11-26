@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - iGenkids</title>
+
+  <!-- Firebase (v8 CDN) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .admin-box{
+      max-width:1000px;
+      margin:auto;
+      padding:20px;
+    }
+
+    .product-form{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:10px;
+      margin:20px 0;
+    }
+    .product-form input, .product-form button{
+      padding:10px;
+      border-radius:8px;
+      border:1px solid #ccc;
+    }
+    .product-form button{
+      background:#2563eb;
+      color:white;
+      cursor:pointer;
+      border:none;
+    }
+
+    table{
+      width:100%;
+      border-collapse: collapse;
+      margin-top:15px;
+    }
+
+    th, td{
+      padding:10px;
+      border:1px solid #ccc;
+      text-align:center;
+    }
+
+    td img{
+      width:50px;
+      border-radius:6px;
+    }
+
+    .delete-btn{
+      background:#ff4d4d;
+      color:white;
+      border:none;
+      padding:6px 12px;
+      cursor:pointer;
+      border-radius:6px;
+    }
+
+    .section-title{
+      margin-top:30px;
+      margin-bottom:10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">iGenkids - Admin Dashboard</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <button onclick="adminLogout()" style="margin-left:12px;background:#ff6b6b;">Logout</button>
+  </nav>
+</header>
+
+<div id="dashboard-loading" style="text-align:center;padding:40px;">
+  Checking admin access...
+</div>
+
+<div id="dashboard-main" style="display:none;">
+
+  <div class="admin-box">
+
+    <!-- PRODUCT MANAGEMENT -->
+    <h2 class="section-title">📦 Product Stock (Admin Only)</h2>
+
+    <div class="product-form">
+      <input id="pName" placeholder="Product name">
+      <input id="pPrice" type="number" placeholder="Price">
+      <input id="pImage" placeholder="Image URL">
+      <button onclick="addProduct()">Add Product</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Image</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody id="products-list"></tbody>
+    </table>
+
+
+    <!-- ORDERS SECTION (still kept) -->
+    <h2 class="section-title">🧾 Orders</h2>
+
+    <div id="orders-list">
+      <p>Loading orders...</p>
+    </div>
+
+    <div style="text-align:center; margin-top:18px;">
+      <button onclick="downloadOrdersJSON()">Download orders JSON</button>
+      <input type="file" id="uploadOrders" accept="application/json" onchange="importOrdersFile(event)">
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ===========================
+   FIREBASE INITIALIZE
+============================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyABq6b5vH4D5JAjAuHV5uGhA7g4CMMh4eo",
+  authDomain: "igenkids-c4e93.firebaseapp.com",
+  projectId: "igenkids-c4e93"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+const db = firebase.firestore();
+
+/* ===========================
+   ADMIN SECURITY (GOOGLE)
+============================= */
+
+const ADMIN_UID = "YxB4YGbiL2Si5sdmbT516Gay1km1";  // your admin UID
+
+firebase.auth().onAuthStateChanged(async (user) => {
+
+  if (!user) {
+  window.location.href = "admin-login.html";
+  return;
+}
+
+
+  if (user.uid !== ADMIN_UID) {
+    alert("Access denied. Not an admin.");
+    await firebase.auth().signOut();
+    return;
+  }
+
+  // ✅ ADMIN CONFIRMED
+  document.getElementById("dashboard-loading").style.display = "none";
+  document.getElementById("dashboard-main").style.display = "block";
+
+  loadProducts();            // load product stock
+  if (window.loadDashboardOrders) {
+    window.loadDashboardOrders();  // keep your order system
+  }
+
+});
+
+
+/* ===========================
+   PRODUCT FUNCTIONS
+============================= */
+
+function loadProducts(){
+  const table = document.getElementById("products-list");
+  table.innerHTML = "";
+
+  db.collection("products").onSnapshot(snapshot=>{
+    table.innerHTML = "";
+    snapshot.forEach(doc=>{
+      const p = doc.data();
+      table.innerHTML += `
+        <tr>
+          <td>${p.name}</td>
+          <td>₹${p.price}</td>
+          <td><img src="${p.image}" /></td>
+          <td>
+            <button class="delete-btn" onclick="deleteProduct('${doc.id}')">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `;
+    })
+  });
+}
+
+function addProduct(){
+  const name = document.getElementById("pName").value;
+  const price = document.getElementById("pPrice").value;
+  const image = document.getElementById("pImage").value;
+
+  if(!name || !price || !image){
+    alert("Fill all fields");
+    return;
+  }
+
+  db.collection("products").add({
+    name: name,
+    price: Number(price),
+    image: image
+  });
+
+  pName.value = "";
+  pPrice.value = "";
+  pImage.value = "";
+}
+
+function deleteProduct(id){
+  if(confirm("Are you sure to delete?")){
+    db.collection("products").doc(id).delete();
+  }
+}
+
+
+/* ===========================
+   LOGOUT
+============================= */
+function adminLogout(){
+  firebase.auth().signOut().then(()=>{
+    window.location.href = "index.html";
+  });
+}
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
